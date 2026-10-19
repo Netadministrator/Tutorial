@@ -19,12 +19,20 @@ import json
 import sys
 from itertools import combinations
 
-from nace_sdk import Choice, NaceAPIConnectionError, NaceAPIError, NaceAuthenticationError, NaceClient, Noul
+from nace_sdk import Choice, NaceAPIConnectionError, NaceAPIError, NaceAuthenticationError, NaceClient, NaceError, Noul
 
 
 def dosyayi_oku(yol):
-    with open(yol, encoding="utf-8") as f:
-        veri = json.load(f)
+    try:
+        with open(yol, encoding="utf-8") as f:
+            veri = json.load(f)
+    except FileNotFoundError:
+        sys.exit(f"Hata: '{yol}' dosyası bulunamadı.")
+    except json.JSONDecodeError as hata:
+        sys.exit(f"Hata: '{yol}' geçerli bir JSON değil (satır {hata.lineno}, sütun {hata.colno}).")
+    for alan in ("amac", "secenekler"):
+        if alan not in veri:
+            sys.exit(f"Hata: '{yol}' dosyasında '{alan}' alanı eksik.")
     secenekler = veri["secenekler"]
     kac_tane = veri.get("kac_tane_secilecek", 1)
     if not 1 <= kac_tane <= len(secenekler):
@@ -79,6 +87,9 @@ def main():
         sys.exit(f"Hata: Drex {hata.status} döndürdü: {hata.message} (request_id: {hata.request_id})")
     except NaceAPIConnectionError:
         sys.exit("Hata: Nace.ai'ye bağlanılamadı. İnternet bağlantını kontrol et.")
+    except NaceError as hata:
+        # Örneğin NACE_API_KEY hiç tanımlı değilse buraya düşer.
+        sys.exit(f"Hata: {hata}")
     sonucu_yazdir(sonuc, secenekler)
 
 

@@ -11,7 +11,7 @@ API anahtarı NACE_API_KEY ortam değişkeninden okunur.
 
 import sys
 
-from nace_sdk import Choice, NaceAPIConnectionError, NaceAPIError, NaceAuthenticationError, NaceClient, Noul
+from nace_sdk import Choice, NaceAPIConnectionError, NaceAPIError, NaceAuthenticationError, NaceClient, NaceError, Noul
 
 # "noul" bu değerin üstündeyse mesajı acil sayarız. İhtiyacına göre değiştirebilirsin.
 ACIL_ESIGI = 0.5
@@ -59,6 +59,9 @@ def main():
         sys.exit(f"Hata: Drex {hata.status} döndürdü: {hata.message} (request_id: {hata.request_id})")
     except NaceAPIConnectionError:
         sys.exit("Hata: Nace.ai'ye bağlanılamadı. İnternet bağlantını kontrol et.")
+    except NaceError as hata:
+        # Örneğin NACE_API_KEY hiç tanımlı değilse buraya düşer.
+        sys.exit(f"Hata: {hata}")
 
 
 if __name__ == "__main__":
