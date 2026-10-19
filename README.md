@@ -50,3 +50,52 @@ Ekip  : payments (güven %74)
 
 - **Acil eşiği:** `mesaj_yonlendir.py` içindeki `ACIL_ESIGI = 0.5` satırını değiştir. Daha yüksek bir değer yazarsan daha az mesaj acil sayılır.
 - **Ekipler:** `SORULAR` içindeki `criteria` sözlüğüne yeni ekip ekleyebilir veya açıklamaları değiştirebilirsin. Açıklamalar, Drex'in doğru ekibi seçmesine yardım eder.
+
+---
+
+# Karar verici (`karar_ver.py`)
+
+Birkaç seçenek arasından en iyi kombinasyonu Drex'e sordurur. Seçenekleri koda değil, `secenekler.json` dosyasına yazarsın.
+
+## Seçenekleri yaz
+
+`secenekler.json` dosyasını aç ve doldur:
+
+```json
+{
+  "amac": "Bir işletme veya çiftlik kurmak",
+  "oncelik": "Maliyet, kullanım, kurulum ve verimliliği birlikte dengele.",
+  "kac_tane_secilecek": 2,
+  "secenekler": {
+    "X": "kurulum kolay, kullanım kolay, verimlilik az, maliyet yüksek",
+    "Y": "maliyet çok düşük, kullanım zor, kurulum orta, verimlilik yüksek"
+  }
+}
+```
+
+- **amac:** Ne için karar veriyorsun?
+- **oncelik:** Senin için en önemli olan ne? Bu alan sonucu en çok değiştiren yerdir.
+- **kac_tane_secilecek:** Kaç seçenek birlikte kullanılacak? Program bütün kombinasyonları kendisi çıkarır (4 seçenekten 2'li → 6 kombinasyon).
+- **secenekler:** İstediğin kadar seçenek ekleyebilirsin.
+
+## Çalıştır
+
+```bash
+python karar_ver.py                  # secenekler.json'u kullanır
+python karar_ver.py baska_dosya.json # başka bir dosyayı kullanır
+```
+
+Örnek çıktı (sayılar her çağrıda biraz değişebilir):
+
+```
+Drex'in önerisi: Z+T (güven %32)
+
+Tüm kombinasyonlar:
+  Z+T          %43.6
+  Y+Z          %21.7
+  ...
+```
+
+İlk iki kombinasyon birbirine çok yakın çıkarsa program seni uyarır. O zaman `oncelik` alanına neyin daha önemli olduğunu açıkça yaz ve tekrar çalıştır.
+
+**Unutma:** Drex bir öneri verir, son karar senindir. Güven puanı düşükse sonuca temkinli bak.

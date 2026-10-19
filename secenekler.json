@@ -1,0 +1,11 @@
+{
+  "amac": "Bir işletme veya çiftlik kurmak",
+  "oncelik": "Maliyet, kullanım, kurulum ve verimliliği birlikte dengele.",
+  "kac_tane_secilecek": 2,
+  "secenekler": {
+    "X": "kurulum kolay, kullanım kolay, verimlilik az, maliyet yüksek",
+    "Y": "maliyet çok düşük, kullanım zor, kurulum orta, verimlilik yüksek",
+    "Z": "maliyet orta, kullanım orta, kurulum kolay, verimlilik yüksek",
+    "T": "maliyet iyi (düşük), kullanım orta, kurulum zor, verimlilik iyi"
+  }
+}
