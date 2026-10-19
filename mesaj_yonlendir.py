@@ -2,6 +2,8 @@
 1. Mesaj acil mi?           (noul: 0 ile 1 arası "evet" olasılığı)
 2. Hangi ekibe gitmeli?     (choice: payments / support / engineering)
 
+Drex ekip seçiminden emin değilse mesaj "bir insan baksın" diye işaretlenir.
+
 Kullanım:
     python mesaj_yonlendir.py "Ödemelerim 3 gündür başarısız oluyor!"
     python mesaj_yonlendir.py            # mesaj vermezsen örnek mesajlar denenir
@@ -16,6 +18,9 @@ from nace_sdk import Choice, NaceAPIConnectionError, NaceAPIError, NaceAuthentic
 # "noul" bu değerin üstündeyse mesajı acil sayarız. İhtiyacına göre değiştirebilirsin.
 ACIL_ESIGI = 0.5
 
+# Ekip seçiminin güveni bu değerin altındaysa mesajı bir insana göndeririz.
+GUVEN_ESIGI = 0.5
+
 ORNEK_MESAJLAR = [
     "Help! My payouts have been failing for 3 days.",
     "How do I change the email address on my account?",
@@ -24,12 +29,13 @@ ORNEK_MESAJLAR = [
 
 SORULAR = {
     "is_urgent": Noul(instructions="Does this convey urgency?"),
+    # Açıklamalar hem İngilizce hem Türkçe: Türkçe mesajlarda da doğru ekibi seçmesine yardım eder.
     "team": Choice(
-        instructions="Which team should handle this?",
+        instructions="Which team should handle this customer message? The message may be in Turkish or English.",
         criteria={
-            "payments": "Payouts, charges, or refunds",
-            "support": "General questions and how-to",
-            "engineering": "Bugs and outages",
+            "payments": "Payouts, charges, refunds, failed payments / Ödeme, para çekme, iade, ödemenin geçmemesi",
+            "support": "General questions and how-to / Genel sorular, nasıl yapılır, hesap ayarları",
+            "engineering": "Bugs, errors, crashes and outages / Hata, çökme, sayfanın açılmaması, kesinti",
         },
     ),
 }
@@ -44,6 +50,8 @@ def mesaji_incele(client, mesaj):
     durum = "ACİL" if acil_olasiligi > ACIL_ESIGI else "acil değil"
     print(f"Acil mi? {durum} (olasılık %{acil_olasiligi * 100:.0f})")
     print(f"Ekip  : {ekip.choice} (güven %{ekip.confidence * 100:.0f})")
+    if ekip.confidence < GUVEN_ESIGI:
+        print("⚠️  Drex ekipten emin değil, bu mesaja bir insan baksın.")
     print()
 
 

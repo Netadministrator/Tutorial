@@ -49,7 +49,8 @@ Ekip  : payments (güven %74)
 ## Nasıl değiştiririm?
 
 - **Acil eşiği:** `mesaj_yonlendir.py` içindeki `ACIL_ESIGI = 0.5` satırını değiştir. Daha yüksek bir değer yazarsan daha az mesaj acil sayılır.
-- **Ekipler:** `SORULAR` içindeki `criteria` sözlüğüne yeni ekip ekleyebilir veya açıklamaları değiştirebilirsin. Açıklamalar, Drex'in doğru ekibi seçmesine yardım eder.
+- **Ekipler:** `SORULAR` içindeki `criteria` sözlüğüne yeni ekip ekleyebilir veya açıklamaları değiştirebilirsin. Açıklamalar, Drex'in doğru ekibi seçmesine yardım eder. Açıklamaları hem İngilizce hem Türkçe yazmak Türkçe mesajlarda isabeti belirgin şekilde artırdı.
+- **İnsan kontrolü:** Drex ekip seçiminden emin değilse (güven `GUVEN_ESIGI = 0.5` altında) program `⚠️ ... bir insan baksın` uyarısı verir. Daha fazla mesajın kontrol edilmesini istersen bu değeri yükselt.
 
 ---
 
