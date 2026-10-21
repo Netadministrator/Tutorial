@@ -47,7 +47,7 @@ Drex'e en iyisini sorar. Örnek dosya: `secenekler.json`
 (`amac`, `oncelik`, `kac_tane_secilecek`, `secenekler`).
 
 ```
-python3 .claude/skills/drex/karar_ver.python3 .claude/skills/drex/secenekler.json
+python3 .claude/skills/drex/karar_ver.py .claude/skills/drex/secenekler.json
 ```
 
 Kullanıcının kendi seçenekleri için yeni bir JSON dosyası oluştur ve yolunu ver.
