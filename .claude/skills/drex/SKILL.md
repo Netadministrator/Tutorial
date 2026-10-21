@@ -11,11 +11,13 @@ Kullanıcıyla Türkçe, sade ve adım adım konuş.
 
 ## Ön koşullar
 
-- `nace-sdk` kütüphanesi kurulu olmalı: `py -m pip install --user nace-sdk==0.1.0`
-  (Windows'ta `py`, diğer sistemlerde `python3` kullan.)
+- `nace-sdk` kütüphanesi kurulu olmalı. Bulut oturumlarında `.claude/hooks/session-start.sh`
+  bunu otomatik kurar; elle kurmak için: `python3 -m pip install -r requirements.txt`
+  (Bulutta `python3`, Windows bilgisayarda `py` kullan. Komutları deponun kökünden çalıştır.)
 - API anahtarı `NACE_API_KEY` ortam değişkeninde olmalı. SDK onu kendisi okur.
 - Anahtarı **asla** ekrana yazdırma, koda yazma, commit etme veya sohbete koyma.
   Varlığını kontrol etmek için sadece "var / yok" yazdır:
+  `[ -n "$NACE_API_KEY" ] && echo var || echo yok` (bulut / bash) veya
   `if ($env:NACE_API_KEY) {"var"} else {"yok"}` (PowerShell)
 
 Hata alınırsa:
@@ -31,8 +33,8 @@ gerektiğini (choice) söyler. Ekip seçiminin güveni %50'nin altındaysa
 "bir insan baksın" uyarısı verir.
 
 ```
-py .claude/skills/drex/mesaj_yonlendir.py "Ödemem geçmedi, acil!"
-py .claude/skills/drex/mesaj_yonlendir.py          # örnek mesajlarla
+python3 .claude/skills/drex/mesaj_yonlendir.py "Ödemem geçmedi, acil!"
+python3 .claude/skills/drex/mesaj_yonlendir.py          # örnek mesajlarla
 ```
 
 Ayarlar dosyanın başında: `ACIL_ESIGI`, `GUVEN_ESIGI` ve `SORULAR` içindeki ekipler.
@@ -45,7 +47,7 @@ Drex'e en iyisini sorar. Örnek dosya: `secenekler.json`
 (`amac`, `oncelik`, `kac_tane_secilecek`, `secenekler`).
 
 ```
-py .claude/skills/drex/karar_ver.py .claude/skills/drex/secenekler.json
+python3 .claude/skills/drex/karar_ver.python3 .claude/skills/drex/secenekler.json
 ```
 
 Kullanıcının kendi seçenekleri için yeni bir JSON dosyası oluştur ve yolunu ver.
